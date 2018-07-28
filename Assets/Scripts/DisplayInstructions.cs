@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class DisplayInstructions : MonoBehaviour {
 
 	bool wasActive = false;
+	private GameManager manager;
 
 	public GameObject instructions;
 	public AudioSource music;
@@ -14,19 +15,21 @@ public class DisplayInstructions : MonoBehaviour {
 	void Start () {
 
 		instructions.gameObject.SetActive(false);
-		
+		manager = GameManager.getInstance();
+
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (GameManager.getInstance().gameIsOver && !wasActive)
+		if (manager.gameIsOver && !wasActive)
 		{
 			music.Play();
 			instructions.SetActive(true);
 			wasActive = true;
 
-		}else if(!GameManager.getInstance().gameIsOver)
+		}else if(!manager.gameIsOver)
 		{
 			music.Stop();
 			instructions.SetActive(false);

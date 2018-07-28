@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GameCell : MonoBehaviour {
 
-	private int lastValue = 0;
+	public int lastValue = 0;
+	public int value = 0;
 
 	GameObject snake;
 	GameObject food;
@@ -31,11 +32,6 @@ public class GameCell : MonoBehaviour {
 		bomb.SetActive(false);
 	}
 	
-	// Update is called once per frame
-	void FixedUpdate () {
-		
-	}
-
 	public void tick()
 	{
 		StartCoroutine(exe());
@@ -44,39 +40,33 @@ public class GameCell : MonoBehaviour {
 	private IEnumerator exe()
 	{
 		yield return null;
-		int value = GameManager.getInstance().map[col, row];
 
-		if (value != lastValue)
+		int childCount = transform.childCount;
+
+		for (int i = 0; i < childCount; i++)
 		{
+			transform.GetChild(i).gameObject.SetActive(false);
 
-			int childCount = transform.childCount;
-
-			for (int i = 0; i < childCount; i++)
-			{
-				transform.GetChild(i).gameObject.SetActive(false);
-
-			}
-
-			switch (value)
-			{
-				case 1:
-					snake.SetActive(true);
-					break;
-				case 2:
-					food.SetActive(true);
-
-					break;
-				case 3:
-					bomb.SetActive(true);
-
-					break;
-				default:
-
-
-					break;
-			}
 		}
 
+		switch (value)
+		{
+			case 1:
+				snake.SetActive(true);
+				break;
+			case 2:
+				food.SetActive(true);
+
+				break;
+			case 3:
+				bomb.SetActive(true);
+
+				break;
+			default:
+
+				break;
+		}
+		
 		lastValue = value ;
 
 	}

@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour {
 
 	public int[,] map = new int[COLS, ROWS];
 	public GameObject[,] positions = new GameObject[COLS, ROWS];
+	public GameCell[,] cells = new GameCell[COLS, ROWS];
 	
 	public float gridSize = 1.5f;
 
@@ -60,6 +61,8 @@ public class GameManager : MonoBehaviour {
 				cell.col = c;
 				cell.row = r;
 
+				cells[c, r] = cell;
+
 				Vector3 newPos = Vector3.zero;
 				newPos.z = r * gridSize;
 				newPos.x = c * gridSize;
@@ -90,22 +93,17 @@ public class GameManager : MonoBehaviour {
 
 	private void tick()
 	{
-
 		for (int c = 0; c < COLS; c++)
 		{
 			for (int r = 0; r < ROWS; r++)
 			{
-				//TODO for debug only
-				//map[c, r] = Random.Range(0, 3);
-
-				//TODO consider a better way than GetComponent
-				GameCell cell = positions[c, r].GetComponent<GameCell>();
-
-				if (cell != null)
+				GameCell cell = cells[c, r];
+				
+				cell.value = map[c, r]; ;
+				if(cell.value != cell.lastValue)
 				{
 					cell.tick();
-				}
-
+				}				
 			}
 		}
 
@@ -122,10 +120,7 @@ public class GameManager : MonoBehaviour {
 		{
 			best = 0;
 		}
-
-
-
-
+		
 		for (int c = 0; c < COLS; c++)
 		{
 			for (int r = 0; r < ROWS; r++)
